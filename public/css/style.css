@@ -126,11 +126,11 @@ header {
   flex: 1;
   display: flex;
   flex-flow: column;
-  justify-content: center;
-  align-items: center;
   align-self: center;
   width: 100%;
   max-width: 100rem;
+  padding: 2rem 0;
+  align-items: center;
 }
 
 /* footer */
@@ -169,4 +169,21 @@ footer {
 
 .low-opacity {
   opacity: 0.5;
+}
+
+/* block */
+.block {
+  border-radius: 3px;
+  border: var(--border);
+  background-color: white;
+  box-shadow: var(--box-shadow);
+}
+
+/* utils */
+.p-20 {
+  padding: 20px;
+}
+
+.p-10 {
+  padding: 10px;
 }

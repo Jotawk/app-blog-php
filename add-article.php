@@ -15,7 +15,7 @@
   <div class="container">
     <?php require_once 'includes/header.php' ?>
     <div class="content">
-      <div class="block">
+      <div class="block p-20 form-container">
         <h1>Ecrire un article</h1>
         <form action="./add-article.php" method="POST">
           <div class="form-control">
@@ -30,7 +30,6 @@
           </div>
           <div class="form-control">
             <label for="title">Catégorie</label>
-            <input type="text" name="category" id="category">
             <select name="category" id="category" class="category">
               <option value="technology">technologie</option>
               <option value="nature">nature</option>
@@ -43,7 +42,7 @@
             <textarea name="content" id="content"></textarea>
             <!-- <p class="text-error"></p> -->
           </div>
-          <div class="form-action">
+          <div class="form-actions">
             <button type="button" class="btn btn-secondary">Annuler</button>
             <button type="button" class="btn btn-primary">Sauvegarder</button>
           </div>
