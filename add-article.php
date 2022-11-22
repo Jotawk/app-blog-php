@@ -1,5 +1,5 @@
 <?php
-const ERROR_REQUIRE = 'Veuillez renseigner ce champ';
+const ERROR_REQUIRED = 'Veuillez renseigner ce champ';
 const ERROR_TITLE_TOO_SHORT = 'Le titre est trop court';
 const ERROR_CONTENT_TOO_SHORT = 'L\'article est trop court';
 const ERROR_IMAGE_URL = 'L\'image doit être une URL valide';
@@ -21,6 +21,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       'flags' => FILTER_FLAG_NO_ENCODE_QUOTES
     ]
   ]);
+  $title = $_POST['title'] ?? '';
+  $image = $_POST['image'] ?? '';
+  $category = $_POST['category'] ?? '';
+  $content = $_POST['content'] ?? '';
+
+  if (!$title) {
+    $errors['title'] = ERROR_REQUIRED;
+  } elseif (mb_strlen($title) < 5) {
+    $errors['title'] = ERROR_TITLE_TOO_SHORT;
+  }
+
+  if (!$image) {
+    $errors['image'] = ERROR_IMAGE_URL;
+  } elseif (filter_var($image, FILTER_VALIDATE_URL)) {
+    $errors['title'] = ERROR_TITLE_TOO_SHORT;
+  }
+
+  if (!$category) {
+    $errors['category'] = ERROR_REQUIRED;
+  }
+
+  if (!$content) {
+    $errors['content'] = ERROR_CONTENT_TOO_SHORT;
+  } elseif (mb_strlen($title) < 50) {
+    $errors['content'] = ERROR_TITLE_TOO_SHORT;
+  }
+
+  if (empty(array_filter($errors, fn ($e) => $e !== ''))) {
+  }
 }
 ?>
 
