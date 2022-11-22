@@ -1,3 +1,29 @@
+<?php
+const ERROR_REQUIRE = 'Veuillez renseigner ce champ';
+const ERROR_TITLE_TOO_SHORT = 'Le titre est trop court';
+const ERROR_CONTENT_TOO_SHORT = 'L\'article est trop court';
+const ERROR_IMAGE_URL = 'L\'image doit être une URL valide';
+
+$errors = [
+  'title' => '',
+  'image' => '',
+  'category' => '',
+  'content' => ''
+];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  $_POST = filter_input_array(INPUT_POST, [
+    'title' => htmlspecialchars('title'),
+    'image' => FILTER_SANITIZE_URL,
+    'category' => htmlspecialchars('category'),
+    'content' => [
+      'filter' => htmlspecialchars('filter'),
+      'flags' => FILTER_FLAG_NO_ENCODE_QUOTES
+    ]
+  ]);
+}
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 
