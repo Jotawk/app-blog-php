@@ -3,15 +3,19 @@ const ERROR_REQUIRED = 'Veuillez renseigner ce champ';
 const ERROR_TITLE_TOO_SHORT = 'Le titre est trop court';
 const ERROR_CONTENT_TOO_SHORT = 'L\'article est trop court';
 const ERROR_IMAGE_URL = 'L\'image doit être une URL valide';
-
+$filename = __DIR__ . '/data/articles.json';
 $errors = [
   'title' => '',
   'image' => '',
   'category' => '',
   'content' => ''
 ];
+$articles = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  if (file_exists($filename)) {
+    $articles = json_decode(file_get_contents($filename), true);
+  }
   $_POST = filter_input_array(INPUT_POST, [
     'title' => htmlspecialchars('title'),
     'image' => FILTER_SANITIZE_URL,
@@ -43,12 +47,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 
   if (!$content) {
-    $errors['content'] = ERROR_CONTENT_TOO_SHORT;
+    $errors['content'] = ERROR_REQUIRED;
   } elseif (mb_strlen($title) < 50) {
-    $errors['content'] = ERROR_TITLE_TOO_SHORT;
+    $errors['content'] = ERROR_CONTENT_TOO_SHORT;
   }
 
   if (empty(array_filter($errors, fn ($e) => $e !== ''))) {
+    $articles = [...$articles, [
+      'title' => $title,
+      'image' => $image,
+      'category' => $category,
+      'content' => $content
+    ]];
+    file_put_contents($filename, json_encode($articles));
+    header('Location: /');
   }
 }
 ?>
@@ -99,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           </div>
           <div class="form-actions">
             <a href="/" type="button" class="btn btn-secondary">Annuler</a>
-            <button type="button" class="btn btn-primary">Sauvegarder</button>
+            <button type="submit" class="btn btn-primary">Sauvegarder</button>
           </div>
         </form>
       </div>
